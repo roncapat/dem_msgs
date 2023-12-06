@@ -15,6 +15,13 @@ find_package(std_msgs)
 find_package(nav_msgs)
 find_package(rosidl_default_generators REQUIRED)
 
-rosidl_generate_interfaces(${PROJECT_NAME} "msg/DigitalElevationMap.msg" DEPENDENCIES std_msgs nav_msgs)
+rosidl_generate_interfaces(
+  ${PROJECT_NAME}
+  "msg/DigitalElevationMap.msg"
+  "msg/DigitalElevationMapUpdate.msg"
+  DEPENDENCIES
+  std_msgs
+  nav_msgs
+)
 
 ament_package()
