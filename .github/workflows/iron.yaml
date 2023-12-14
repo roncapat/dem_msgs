@@ -9,6 +9,10 @@ on:
     # At 6:50 each day
     - cron:  '50 06 * * *'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   Build:
     runs-on: self-hosted
