@@ -11,3 +11,14 @@ It is based on [nav_msgs/OccupancyGrid](https://github.com/ros2/common_interface
 ## Messages (.msg)
 * [DigitalElevationMap](msg/DigitalElevationMap.msg): An array of cells in a 2D grid, each cell represents the height associated to the (x, y) location.
 * [DigitalElevationMapUpdate](msg/DigitalElevationMapUpdate.msg): The corresponding partial update message.
+
+# Pre-commit
+This project uses [pre-commit](https://pre-commit.com/).  On Ubuntu, install it with:
+```
+sudo python3 -m pip install pre-commit
+```
+Then, enter the repository root and run :
+```
+pre-commit install
+```
+Now every time a commit is issued, a number of automated checks are done on code.
