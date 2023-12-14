@@ -5,6 +5,9 @@ on:
   push:
     branches:
       - iron
+  schedule:
+    # At 6:50 each day
+    - cron:  '50 06 * * *'
 
 jobs:
   Build:
