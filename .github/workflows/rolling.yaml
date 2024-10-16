@@ -7,7 +7,7 @@ on:
       - iron
   schedule:
     # At 6:50 each day
-    - cron:  '50 06 * * *'
+    - cron:  '50 06 * * 0'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
