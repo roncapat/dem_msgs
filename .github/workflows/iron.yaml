@@ -2,12 +2,14 @@ name: Ubuntu 22.04 Iron Build
 
 on:
   pull_request:
+    branches:
+      - iron
   push:
     branches:
       - iron
   schedule:
-    # At 6:50 each day
-    - cron:  '50 06 * * 0'
+    # At 7:01 & 20:01 only on Sunday
+    - cron:  '01 7,20 * * 0'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -15,34 +17,41 @@ concurrency:
 
 jobs:
   Build:
-    timeout-minutes: 10
+    timeout-minutes: 20
     runs-on: self-hosted
     container:
-      image: osrf/ros:iron-desktop-full-jammy
+      image: ${{ vars.LOCAL_DOCKER_REGISTRY_IP }}:5000/roxy_iron:base
 
     steps:
-    - name: Update
-      timeout-minutes: 2
-      run: apt-get update
-
-    - name: Install PIP
-      run: apt-get install -y python3-pip lcov
-
-    - name: Install colcon tools
-      run: python3 -m pip install colcon-lcov-result colcon-coveragepy-result
-
     - name: Checkout
       uses: actions/checkout@v4
 
+    - name: Configure git for private modules
+      env:
+        TOKEN: ${{ secrets.MYORG_REPO_ACCESS_TOKEN }}
+      run: |
+        git config --global url."https://roncapat:${TOKEN}@github.com".insteadOf "https://github.com"
+        cat ~/.gitconfig
+
     - name: Run Tests
+      timeout-minutes: 10
       uses: ros-tooling/action-ros-ci@0.3.6
       with:
         target-ros2-distro: iron
         import-token: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Upload Logs
-      uses: actions/upload-artifact@v4
-      with:
-        name: colcon-logs
-        path: ros_ws/log
-      if: failure()
+        skip-rosdep-install: true
+        colcon-defaults: |
+          {
+            "build": {
+                "merge-install": true,
+                "cmake-args": [
+                    "-D_FORTIFY_SOURCE=3",
+                    "-D_GLIBCXX_ASSERTIONS=1",
+                    "-DCMAKE_C_FLAGS=-march=native -fopenmp",
+                    "-DCMAKE_CXX_FLAGS=-march=native -fopenmp"
+                ]
+            },
+            "test": {
+                "merge-install": true
+            }
+          }
