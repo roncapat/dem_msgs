@@ -26,10 +26,7 @@ jobs:
       run: apt-get update
 
     - name: Install PIP
-      run: apt-get install -y python3-pip lcov
-
-    - name: Install colcon tools
-      run: python3 -m pip install colcon-lcov-result colcon-coveragepy-result
+      run: apt-get install -y python3-pip lcov python3-colcon-lcov-result python3-colcon-coveragepy-result
 
     - name: Checkout
       uses: actions/checkout@v4
