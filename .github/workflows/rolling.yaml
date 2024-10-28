@@ -1,4 +1,4 @@
-name: Ubuntu 22.04 Rolling Build
+name: Ubuntu 24.04 Rolling Build
 
 on:
   pull_request:
@@ -18,7 +18,7 @@ jobs:
     timeout-minutes: 10
     runs-on: self-hosted
     container:
-      image: osrf/ros:rolling-desktop-full-jammy
+      image: osrf/ros:rolling-desktop-full
 
     steps:
     - name: Update
