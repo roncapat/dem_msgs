@@ -35,7 +35,7 @@ jobs:
 
     - name: Run Tests
       timeout-minutes: 10
-      uses: ros-tooling/action-ros-ci@0.3.6
+      uses: ros-tooling/action-ros-ci@0.3.16
       with:
         target-ros2-distro: iron
         import-token: ${{ secrets.GITHUB_TOKEN }}
