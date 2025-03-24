@@ -1,4 +1,4 @@
-name: Ubuntu 22.04 Iron Build
+name: Ubuntu 22.04 Jazzy Build
 
 on:
   pull_request:
@@ -8,8 +8,8 @@ on:
     branches:
       - iron
   schedule:
-    # At 7:01 & 20:01 only on Sunday
-    - cron:  '01 7,20 * * 0'
+    # At 6:50 each day
+    - cron:  '50 06 * * 0'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -17,10 +17,10 @@ concurrency:
 
 jobs:
   Build:
-    timeout-minutes: 20
+    timeout-minutes: 10
     runs-on: self-hosted
     container:
-      image: ${{ vars.LOCAL_DOCKER_REGISTRY_IP }}:5000/roxy_iron:base
+      image: ${{ vars.LOCAL_DOCKER_REGISTRY_IP }}:5000/roxy_jazzy:base
 
     steps:
     - name: Checkout
@@ -30,5 +30,5 @@ jobs:
       timeout-minutes: 10
       uses: ros-tooling/action-ros-ci@0.3.16
       with:
-        target-ros2-distro: iron
+        target-ros2-distro: jazzy
         skip-rosdep-install: true
